@@ -1,0 +1,33 @@
+# Trabalho Final de BD - Frota e Logística
+# PostgreSQL 16 em Docker.
+#
+# Subir o banco:      docker compose up -d
+# Parar:              docker compose down
+# Recriar do zero:    docker compose down -v && docker compose up -d
+#
+# Os scripts .sql NÃO rodam automaticamente: a pasta do projeto fica montada
+# em /scripts (somente leitura) e cada script é executado na ordem, com psql
+# (veja o passo a passo no README.md).
+
+services:
+  db:
+    image: postgres:16
+    container_name: frota_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: frota
+      POSTGRES_PASSWORD: frota123
+      POSTGRES_DB: frota_logistica
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./:/scripts:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U frota -d frota_logistica"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
