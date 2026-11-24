@@ -5,7 +5,7 @@
 # Parar:              docker compose down
 # Recriar do zero:    docker compose down -v && docker compose up -d
 #
-# Os scripts .sql NÃO rodam automaticamente: a pasta do projeto fica montada
+# Os scripts .sql NÃO rodam automaticamente: a pasta scripts/ fica montada
 # em /scripts (somente leitura) e cada script é executado na ordem, com psql
 # (veja o passo a passo no README.md).
 
@@ -22,7 +22,7 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./:/scripts:ro
+      - ./scripts:/scripts:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U frota -d frota_logistica"]
       interval: 5s

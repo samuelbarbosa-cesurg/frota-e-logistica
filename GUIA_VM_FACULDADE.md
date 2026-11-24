@@ -176,7 +176,7 @@ docker compose exec db psql -U frota -d frota_logistica -c "SELECT version();"
 
 ## 8. Rodar os scripts na ordem
 
-A pasta do projeto fica visível dentro do container em `/scripts`. Rode **um de cada vez**, na ordem:
+A pasta `scripts/` do projeto fica visível dentro do container em `/scripts`. Rode **um de cada vez**, na ordem:
 
 ```bash
 docker compose exec db psql -U frota -d frota_logistica -v ON_ERROR_STOP=1 -f /scripts/01_create.sql
