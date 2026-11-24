@@ -208,6 +208,22 @@ docker compose exec db psql -U frota -d frota_logistica -a -f /scripts/06_restri
 
 ---
 
+### Atalho: `rodar.sh`
+
+Para não digitar os comandos grandes, use o script `rodar.sh` (dar permissão uma única vez):
+
+```bash
+chmod +x rodar.sh
+```
+
+| Comando | O que faz |
+|---|---|
+| `./rodar.sh 1` | roda `scripts/01_*.sql` (use 1 a 6) |
+| `./rodar.sh tudo` | apaga o banco, sobe vazio e roda os scripts 01 a 06 na ordem |
+| `./rodar.sh reset` | apaga tudo e sobe um banco vazio |
+| `./rodar.sh psql` | abre o psql interativo (sair com `\q`) |
+| `./rodar.sh status` | mostra o estado do container |
+
 ## 9. Recomeçar do zero (banco vazio)
 
 Os scripts precisam funcionar em banco vazio. Para apagar tudo e testar de novo:
