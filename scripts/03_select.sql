@@ -49,3 +49,29 @@ JOIN veiculo ve ON ve.id = vi.veiculo_id
 JOIN rota ro ON ro.id = vi.rota_id
 WHERE vi.data_entrega IS NULL
 ORDER BY vi.motorista_id
+
+-- COM AGREGAÇÃO (COUNT, SUM ou AVG)
+-- USANDO COUNT
+-- Quais motoristas já fizeram mais de 3 viagens? Mostrando o nome do motorista e a quantidade de viagens que ele fez, da maior para a menor.
+SELECT mo.nome, COUNT(vi.id) AS qtd_viagens
+FROM viagem vi
+JOIN motorista mo ON mo.id = vi.motorista_id
+GROUP BY mo.id HAVING COUNT(vi.id) >= 3
+ORDER BY qtd_viagens DESC, mo.nome;
+
+-- USANDO O SUM
+-- Quais veículos já percorreram mais de 250 km? Mostrando a placa, modelo e a soma de km percorridos, da maior para a menor.
+SELECT ve.placa, ve.modelo, SUM(vi.km_final - vi.km_inicial) AS km_percorridos
+FROM viagem vi
+JOIN veiculo ve ON ve.id = vi.veiculo_id
+WHERE vi.km_final IS NOT NULL
+GROUP BY ve.id HAVING SUM(vi.km_final - vi.km_inicial) > 250
+ORDER BY km_percorridos DESC, ve.placa;
+
+-- USANDO O AVG
+-- Quais motoristas têm a idade média maior que 40 anos? Mostrando o nome do motorista e a idade, da mais velha para a mais nova.
+SELECT mo.nome, EXTRACT(YEAR FROM AGE(mo.data_nascimento)) AS idade
+FROM motorista mo
+GROUP BY mo.id
+HAVING AVG(EXTRACT(YEAR FROM AGE(mo.data_nascimento))) > 40
+ORDER BY idade DESC, mo.nome;
